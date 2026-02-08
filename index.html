@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Forever ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        body { background: radial-gradient(circle at center, #1a0a1a 0%, #050505 100%); margin: 0; overflow-x: hidden; font-family: 'Poppins', sans-serif; }
+
+        .gold-text { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-box { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255, 215, 0, 0.1); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+
+        .heart { position: fixed; top: -10%; user-select: none; pointer-events: none; z-index: 0; animation: fall linear infinite; color: rgba(255, 105, 180, 0.4); }
+        @keyframes fall { to { transform: translateY(110vh) translateX(20px) rotate(360deg); } }
+
+        .polaroid { background: white; padding: 10px 10px 30px 10px; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: rotate(-3deg); transition: 0.5s; width: 220px; margin: 0 auto; }
+        .polaroid:hover { transform: rotate(0deg) scale(1.05); }
+        .polaroid img { width: 100%; height: 200px; object-fit: cover; border: 1px solid #ddd; }
+
+        .cursive { font-family: 'Great Vibes', cursive; }
+        .serif { font-family: 'Cinzel', serif; }
+        
+        .aura { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255, 20, 147, 0.1) 0%, transparent 70%); border-radius: 50%; filter: blur(100px); z-index: -1; animation: move 15s infinite alternate; }
+        @keyframes move { from { transform: translate(-20%, -20%); } to { transform: translate(20%, 20%); } }
+    </style>
+</head>
+<body x-data="{ 
+    step: -1, 
+    musicStarted: false,
+    playMusic() {
+        let audio = document.getElementById('bgMusic');
+        audio.play().catch(e => console.log('Music play failed', e));
+        this.musicStarted = true;
+        this.step = 0;
+    },
+    celebrate() {
+        confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 }, colors: ['#bf953f', '#FF1493', '#FFFFFF'] });
+    }
+}">
+
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="aura"></div>
+    <template x-for="i in 25">
+        <div class="heart" :style="`left: ${Math.random() * 100}%; font-size: ${Math.random() * 20 + 10}px; animation-duration: ${Math.random() * 5 + 5}s; animation-delay: ${Math.random() * 5}s;`" x-text="'❤️'"></div>
+    </template>
+
+    <div class="min-h-screen flex items-center justify-center p-6">
+
+        <div x-show="step === -1" class="text-center z-10 glass-box p-12 rounded-[3rem]">
+            <h1 class="serif gold-text text-4xl mb-6 tracking-widest">For You</h1>
+            <p class="text-white italic mb-8 max-w-md mx-auto leading-relaxed">
+                "Teri aankhon ki gehraai mein kuch aisa nasha tha,<br>
+                Ki dekhte hi hum apna thikaana bhool gaye.<br>
+                Log darrte hain aksar doobne se dariya mein,<br>
+                Magar hum teri nigaahon mein doob kar zamaana bhool gaye."
+            </p>
+            <button @click="playMusic()" class="px-10 py-4 bg-gradient-to-r from-[#bf953f] to-[#aa771c] text-black font-bold rounded-full hover:scale-105 transition-all shadow-xl">
+                Open My Heart ✨
+            </button>
+        </div>
+
+        <div x-show="step === 0" x-cloak class="text-center">
+            <div @click="step = 1" class="cursor-pointer hover:scale-105 transition-all p-10 bg-[#3d0f27] rounded-2xl shadow-2xl border border-white/10 text-center">
+                <span class="text-white cursive text-4xl">Tap to see our journey... ✉️</span>
+            </div>
+        </div>
+
+        <div x-show="step > 0" x-cloak class="max-w-2xl w-full glass-box rounded-[4rem] p-8 md:p-12 text-center relative z-10">
+            
+            <div x-show="step === 1" x-transition>
+                <div class="polaroid mb-6"> <img src="photo1.png"> </div>
+                <h2 class="serif text-2xl gold-text uppercase mb-4 tracking-widest">Rose Day 🌹</h2>
+                <p class="text-pink-100 italic mb-8 px-4">
+                    "Teri saadgi mein bhi ek kamaal ka noor hai,<br>
+                    Bin kahe hi dil ko mil jaata sukoon hai."
+                </p>
+                <button @click="step = 2" class="text-white opacity-40 text-xs hover:opacity-100 uppercase tracking-widest">Next Chapter →</button>
+            </div>
+
+            <div x-show="step === 2" x-transition>
+                <div class="polaroid mb-6" style="transform: rotate(3deg);"> <img src="photo2.png"> </div>
+                <h2 class="serif text-2xl gold-text uppercase mb-4 tracking-widest">Propose Day 💍</h2>
+                <p class="text-pink-100 italic mb-8 px-4">
+                    "Yeh jo chamak hai teri aankhon mein sanam,<br>
+                    Shayad isi ko kehte khuda ka fitoor hai."
+                </p>
+                <button @click="step = 3" class="text-white opacity-40 text-xs hover:opacity-100 uppercase tracking-widest">Sweetness Awaits →</button>
+            </div>
+
+            <div x-show="step === 3" x-transition>
+                <div class="polaroid mb-6"> <img src="photo3.png"> </div>
+                <h2 class="serif text-2xl gold-text uppercase mb-4 tracking-widest">Chocolate Day & Your Memories 🍫</h2>
+                <p class="text-gray-300 text-sm mb-8 px-4 italic leading-relaxed">
+                    "Every moment with you is a sweet memory I cherish forever."
+                </p>
+                <button @click="step = 4" class="text-white opacity-40 text-xs hover:opacity-100 uppercase tracking-widest">A Special Promise... →</button>
+            </div>
+
+            <div x-show="step === 4" x-transition class="max-h-[70vh] overflow-y-auto px-4">
+                <div class="polaroid mb-6" style="transform: rotate(-3deg);"> <img src="photo4.png"> </div>
+                <h2 class="serif text-2xl gold-text uppercase mb-4 tracking-widest">Promise Day 🤝</h2>
+                <p class="text-pink-100 text-sm italic mb-8 whitespace-pre-line leading-relaxed">
+                    "Tum meri zindagi ki wo dua ho, Jo har raat maine khamoshi se maangi hai.
+                    Tumhari ek smile se mera din bright ho jaata hai, warna meri duniya toh sirf andheron se bhari hai.
+                    Tumhari aankhon mein mujhe apna sukoon dikhta hai, jaise saari universe wahin ruk si jaati hai.
+                    Tumhare bina ye dil incomplete sa lagta hai, jaise har khushi mujhse rooth jaati hai.
+                    Jab tum paas hoti ho, toh time slow ho jaata hai, har moment ek beautiful memory ban jaata hai.
+                    Tumhara naam jab mere dil se nikalta hai, toh har heartbeat ek love story likh jaata hai.
+                    Agar God se kuch maangna ho, toh sirf tumhe maangunga, har lifetime ke liye, har janam ke liye.
+                    Kyunki meri subah tumhari smile se start hoti hai, aur meri har shaam sirf tumhare naam ke liye."
+                </p>
+                <button @click="step = 5; celebrate();" class="w-full py-4 rounded-full bg-gradient-to-r from-[#bf953f] to-[#aa771c] text-black font-black uppercase tracking-widest shadow-xl">
+                    I Accept This ❤️
+                </button>
+            </div>
+
+            <div x-show="step === 5" x-transition>
+                <div class="polaroid mb-6"> <img src="photo5.png"> </div>
+                <h1 class="cursive text-5xl text-white mb-6">Forever Yours</h1>
+                <p class="gold-text text-sm mb-8 whitespace-pre-line leading-relaxed italic">
+                    "When you walked into my life, the world felt new,
+                    Every broken dream slowly came true.
+                    Your smile became my morning light,
+                    Your love turned my darkness into bright.
+                    In your eyes, I found my home,
+                    With you, I never feel alone.
+                    Every heartbeat whispers your name,
+                    In my silent prayers, you always remain.
+                    If forever had a meaning, it would be you,
+                    In every lifetime, I would still choose you.
+                    My love for you will never fade away,
+                    It will grow stronger with every passing day."
+                </p>
+                <div class="inline-block py-2 px-6 rounded-full bg-white/10 border border-white/20 text-[10px] text-pink-300 tracking-[0.4em] uppercase mb-4">Happy Love Week</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
