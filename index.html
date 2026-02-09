@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Eternal Love ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        body { background: radial-gradient(circle at center, #2d0b1d 0%, #050505 100%); margin: 0; overflow: hidden; font-family: 'Montserrat', sans-serif; color: white; touch-action: manipulation; }
+        
+        .gold-text { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-box { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255, 215, 0, 0.2); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+
+        .panda-container { font-size: 40px; animation: pandaFloat 3s ease-in-out infinite; display: inline-block; }
+        @keyframes pandaFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .polaroid { background: white; padding: 10px 10px 30px 10px; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.9); transform: rotate(-2deg); width: 180px; margin: 0 auto; transition: 0.5s; }
+        .polaroid img { width: 100%; height: 170px; object-fit: cover; }
+
+        .marquee { position: fixed; bottom: 15px; width: 100%; overflow: hidden; white-space: nowrap; font-family: 'Great Vibes', cursive; color: #bf953f; font-size: 1.4rem; pointer-events: none; z-index: 50; }
+        .marquee p { display: inline-block; animation: marqueeMove 20s linear infinite; padding-left: 100%; }
+        @keyframes marqueeMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        .magic-heart { position: fixed; pointer-events: none; z-index: 999; color: #bf953f; animation: heartFade 1.2s ease-out forwards; font-size: 1.3rem; filter: drop-shadow(0 0 5px #bf953f); }
+        @keyframes heartFade { 0% { opacity: 0; transform: scale(0.5); } 20% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.5) translateY(-80px); } }
+
+        .envelope { width: 220px; height: 140px; background: #800020; border-radius: 0 0 15px 15px; position: relative; margin: 0 auto; cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; }
+        .envelope::after { content: ''; position: absolute; top: -90px; left: 0; border-left: 110px solid transparent; border-right: 110px solid transparent; border-bottom: 90px solid #a52a2a; }
+
+        .serif { font-family: 'Cinzel', serif; }
+        .cursive { font-family: 'Great Vibes', cursive; }
+        .btn-next { cursor: pointer; border: 1px solid #bf953f; padding: 6px 20px; border-radius: 20px; color: #bf953f; font-size: 12px; transition: 0.3s; margin-top: 15px; display: inline-block; }
+    </style>
+</head>
+<body 
+    x-data="{ 
+        step: -1, isAccepted: false, noScale: 1, lastHeart: 0,
+        createHeart(e) {
+            let now = Date.now();
+            if(now - this.lastHeart < 200) return; 
+            this.lastHeart = now;
+            let h = document.createElement('div');
+            h.innerHTML = '❤️'; h.className = 'magic-heart';
+            let x = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+            let y = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+            h.style.left = x + 'px'; h.style.top = y + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1200);
+        }
+    }" 
+    @mousemove="createHeart($event)"
+    @touchstart="createHeart($event)"
+>
+
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="min-h-screen flex items-center justify-center p-4 relative">
+        
+        <div x-show="step === -1" class="text-center z-10 glass-box p-10 rounded-[3rem] w-full max-w-sm">
+            <h2 class="serif gold-text text-xl mb-4 uppercase tracking-widest">Welcome</h2>
+            <div class="polaroid mb-6"> <img src="photo1.png"> </div>
+            <div class="panda-container mb-2">🐼✨</div>
+            <p class="cursive text-2xl text-white mb-6 leading-relaxed">
+                "Teri aankhon ki gehraai mein kuch aisa nasha tha,<br>Ki dekhte hi hum apna thikaana bhool gaye."
+            </p>
+            <button @click="document.getElementById('bgMusic').play(); step = 0;" class="px-10 py-3 bg-gradient-to-r from-[#bf953f] to-[#aa771c] text-black font-bold rounded-full">Enter ✨</button>
+        </div>
+
+        <div x-show="step === 0" x-cloak class="text-center">
+            <h2 class="gold-text serif text-lg mb-20 tracking-widest uppercase">Tap to open</h2>
+            <div @click="step = 1" class="envelope">
+                <span class="text-white cursive text-center px-4 leading-tight relative z-20">open it to see the surprise dear beautiful...</span>
+            </div>
+            <div class="panda-container mt-12">🐼🎁</div>
+        </div>
+
+        <div x-show="step === 1" x-cloak class="w-full max-w-md glass-box rounded-[3rem] p-8 text-center flex flex-col justify-center min-h-[500px]">
+            <h2 class="serif gold-text text-2xl mb-6 uppercase tracking-widest">The Letter</h2>
+            <div class="panda-container mb-2">🐼✍️</div>
+            <div class="bg-white/5 p-6 rounded-2xl border border-white/10 text-left">
+                <p class="cursive text-2xl text-pink-100 leading-relaxed italic">
+                    "When you walked into my life, the world felt new,
+                    Every broken dream slowly came true.
+                    Your smile became my morning light,
+                    Your love turned my darkness into bright."
+                </p>
+            </div>
+            <div @click="step = 2" class="btn-next">Next Page →</div>
+        </div>
+
+        <div x-show="step === 2" x-cloak class="w-full max-w-md glass-box rounded-[3rem] p-6 text-center min-h-[500px]">
+            <h2 class="serif gold-text text-2xl mb-4 uppercase tracking-widest">Rose Day</h2>
+            <div class="polaroid mb-6"> <img src="photo2.png"> </div>
+            <div class="panda-container text-3xl mb-2">🐼🌹</div>
+            <p class="cursive text-2xl text-white px-2">
+                "Teri saadgi mein bhi ek kamaal ka noor hai,
+                Bin kahe hi dil ko mil jaata sukoon hai.
+                Yeh jo chamak hai teri aankhon mein sanam,
+                Shayad isi ko kehte khuda ka fitoor hai."
+            </p>
+            <div @click="step = 3" class="btn-next">Next →</div>
+        </div>
+
+        <div x-show="step === 3" x-cloak class="w-full max-w-md glass-box rounded-[3rem] p-6 text-center min-h-[500px] flex flex-col justify-center">
+            <h2 class="serif gold-text text-2xl mb-4 uppercase tracking-widest">Propose Day</h2>
+            <div x-show="!isAccepted">
+                <div class="polaroid mb-4"> <img src="photo3.png"> </div>
+                <div class="panda-container text-3xl mb-2">🐼💍</div>
+                <p class="cursive text-2xl text-white mb-6">
+                    "You came into my life like a gentle rain,
+                    Washing away my fears, healing my pain."
+                </p>
+                <h3 class="serif text-white mb-4 text-sm tracking-widest">WILL YOU BE MINE?</h3>
+                <div class="flex justify-center gap-4">
+                    <button @click="isAccepted = true; confetti();" class="px-8 py-2 bg-white text-black font-bold rounded-full text-sm z-10">YES</button>
+                    <button @click="noScale += 1.4" :style="`transform: scale(${noScale}); z-index: ${noScale > 4 ? 100 : 5}; position: ${noScale > 4 ? 'fixed' : 'relative'}; top: ${noScale > 4 ? '0' : ''}; left: ${noScale > 4 ? '0' : ''}; width: ${noScale > 4 ? '100vw' : ''}; height: ${noScale > 4 ? '100vh' : ''};`" class="px-8 py-2 bg-red-600 rounded-full font-bold text-sm transition-all">NO</button>
+                </div>
+            </div>
+            <div x-show="isAccepted">
+                <div class="panda-container text-4xl mb-4">🐼❤️🎉</div>
+                <h2 class="cursive text-4xl gold-text">I Knew It! ❤️</h2>
+                <p class="mt-4 text-pink-100 italic">"Ab ye haath kabhi mat chhodna."</p>
+                <div @click="step = 4" class="btn-next">Next →</div>
+            </div>
+        </div>
+
+        <div x-show="step === 4" x-cloak class="w-full max-w-md glass-box rounded-[3rem] p-6 text-center min-h-[500px]">
+            <h2 class="serif gold-text text-2xl mb-4 uppercase tracking-widest">Chocolate Day</h2>
+            <div class="polaroid mb-6"> <img src="photo4.png"> </div>
+            <div class="panda-container text-3xl mb-2">🐼🍫</div>
+            <p class="cursive text-3xl text-white px-2">
+                "Tumhari ek smile kisi bhi chocolate se zyada meethi hai."
+            </p>
+            <div @click="step = 5" class="btn-next">Our Memories →</div>
+        </div>
+
+        <div x-show="step === 5" x-cloak class="w-full max-w-md glass-box rounded-[3rem] p-6 text-center min-h-[500px]">
+            <h2 class="serif gold-text text-2xl mb-4 uppercase tracking-widest">Our Memories</h2>
+            <div class="polaroid mb-6"> <img src="photo5.png"> </div>
+            <div class="panda-container text-3xl mb-2">🐼📸</div>
+            <p class="cursive text-2xl text-white px-2">
+                "Har lamha jo humne saath bitaya hai, <br> wo mere dil ke sabse kareeb hai."
+            </p>
+            <div @click="step = 6" class="btn-next">My Promise →</div>
+        </div>
+
+        <div x-show="step === 6" x-cloak class="w-full max-w-md glass-box rounded-[3rem] p-6 text-center min-h-[550px]">
+            <h2 class="serif gold-text text-2xl mb-4 uppercase tracking-widest">Our Promise</h2>
+            <div class="max-h-[480px] overflow-y-auto px-2 scrollbar-hide">
+                <div class="polaroid mb-6 scale-90"> <img src="photo6.png"> </div>
+                <div class="panda-container text-3xl mb-2">🐼🤝</div>
+                <p class="cursive text-2xl text-pink-100 leading-relaxed text-left whitespace-pre-line px-2">
+                    "When you walked into my life, the world felt new,
+                    Every broken dream slowly came true.
+                    Your smile became my morning light,
+                    Your love turned my darkness into bright.
+                    In your eyes, I found my home,
+                    With you, I never feel alone.
+                    Every heartbeat whispers your name,
+                    In my silent prayers, you always remain.
+                    If forever had a meaning, it would be you,
+                    In every lifetime, I would still choose you.
+                    My love for you will never fade away,
+                    It will grow stronger with every passing day."
+                </p>
+                <div @click="step = 7; confetti();" class="btn-next mb-6">Final Touch 💖</div>
+            </div>
+        </div>
+
+        <div x-show="step === 7" x-cloak class="text-center">
+            <h2 class="serif gold-text text-2xl mb-6 uppercase tracking-widest">Forever</h2>
+            <div class="polaroid mb-6"> <img src="photo7.png"> </div>
+            <div class="panda-container text-5xl mb-4">🐼👩‍❤️‍👨❤️</div>
+            <h1 class="cursive text-5xl gold-text">Forever Yours</h1>
+            <p class="mt-4 text-gray-400 text-xs tracking-widest uppercase italic">In every lifetime, I will still choose you.</p>
+            <div @click="step = -1" class="mt-10 opacity-20 text-[8px] cursor-pointer">Replay Our Story</div>
+        </div>
+
+        <div class="marquee">
+            <p>You are my dream come true... ❤️ Forever begins with you... 💍 I love you so much 🐼... ✨</p>
+        </div>
+    </div>
+
+</body>
+</html>
